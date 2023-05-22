@@ -1,0 +1,26 @@
+---
+# vars file for xdm
+
+_xdm_packages:
+  default: []
+  Alpine:
+    - xorg-xdm
+  Archlinux:
+    - xorg-server
+    - xdm-archlinux
+  Debian:
+    - xorg-xdm
+  Fedora:
+    - "@Fedora Workstation"
+    - "@Fonts"
+    - dbus-x11
+  openSUSE Leap:
+    - xorg-xdm
+  RedHat:
+    - "@Server with GUI"
+
+xdm_packages: "{{ _xdm_packages[ansible_distribution] | default(_xdm_packages[ansible_os_family] | default(_xdm_packages['default'])) }}"
+
+xdm_exclude:
+  - "{{ ansible_distribution | lower }}-release-workstation"
+  - "{{ ansible_distribution | lower }}-release-workstation"

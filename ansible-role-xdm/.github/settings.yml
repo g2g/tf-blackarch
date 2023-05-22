@@ -1,0 +1,8 @@
+---
+#
+# Ansible managed
+#
+repository:
+  description: Install Xdm on your system.
+  homepage: https://robertdebock.nl/
+  topics: xdm, ansible, molecule, tox, playbook

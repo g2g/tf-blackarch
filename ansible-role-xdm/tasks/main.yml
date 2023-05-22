@@ -1,0 +1,40 @@
+---
+# tasks file for xdm
+
+- name: Install software using dnf
+  ansible.builtin.package:
+    name: "{{ xdm_packages }}"
+    state: present
+    exclude: "{{ xdm_exclude | default(omit) }}"
+    allowerasing: yes
+  when:
+    - ansible_pkg_mgr == "dnf"
+
+- name: Install software using package
+  ansible.builtin.package:
+    name: "{{ xdm_packages }}"
+    state: present
+  when:
+    - ansible_pkg_mgr != "dnf"
+
+- name: Push xsession user config
+  ansible.builtin.copy:
+    src: xsession
+    dest: /home/{{ user.name }}/.xsession
+    mode: "0740"
+    owner: "{{ user.name }}"
+    group: "{{ user.group | default(omit) }}"
+
+- name: Start dbus-broker
+  ansible.builtin.service:
+    name: dbus-broker
+    state: started
+    enabled: yes
+  when:
+    - ansible_distribution == "Fedora"
+
+- name: Start xdm display manager
+  ansible.builtin.service:
+    name: xdm-archlinux
+    state: started
+    enabled: yes

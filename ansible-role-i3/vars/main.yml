@@ -1,0 +1,35 @@
+---
+# vars file for i3
+
+_i3_packages:
+  default: []
+  Alpine:
+    - i3-wm
+    - i3lock
+    - i3status
+    - i3blocks
+    - rofi
+  Archlinux:
+    - i3-wm
+    - i3lock
+    - i3status
+    - i3blocks
+    - rofi
+  Debian:
+    - i3-wm
+    - rofi
+  Fedora:
+    - "@Fedora Workstation"
+    - "@Fonts"
+    - dbus-x11
+  openSUSE Leap:
+    - i3-wm
+    - rofi
+  RedHat:
+    - "@Server with GUI"
+
+i3_packages: "{{ _i3_packages[ansible_distribution] | default(_i3_packages[ansible_os_family] | default(_i3_packages['default'] )) }}"
+
+i3_exclude:
+  - "{{ ansible_distribution | lower }}-release-workstation"
+  - "{{ ansible_distribution | lower }}-release-workstation"

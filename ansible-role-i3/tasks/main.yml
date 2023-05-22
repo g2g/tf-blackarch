@@ -1,0 +1,35 @@
+---
+# tasks file for i3
+
+- name: Install software using dnf
+  ansible.builtin.package:
+    name: "{{ i3_packages }}"
+    state: present
+    exclude: "{{ i3_exclude | default(omit) }}"
+    allowerasing: yes
+  when:
+    - ansible_pkg_mgr == "dnf"
+
+- name: Install software using package
+  ansible.builtin.package:
+    name: "{{ i3_packages }}"
+    state: present
+  when:
+    - ansible_pkg_mgr != "dnf"
+
+- name: Push i3 user config
+  ansible.builtin.copy:
+    src: i3/
+    dest: /home/{{ user.name }}/.config/i3/
+    mode: "0755"
+    owner: "{{ user.name }}"
+    group: "{{ user.group | default(omit) }}"
+
+- name: Push i3 blocks config
+  ansible.builtin.copy:
+    src: i3blocks/
+    dest: /home/{{ user.name }}/.config/i3blocks/
+    mode: "0755"
+    owner: "{{ user.name }}"
+    group: "{{ user.group | default(omit) }}"
+

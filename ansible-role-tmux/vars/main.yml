@@ -1,0 +1,26 @@
+---
+# vars file for tmux
+
+_tmux_packages:
+  default: []
+  Alpine:
+    - tmux
+  Archlinux:
+    - tmux
+    - powerline-font
+  Debian:
+    - tmux
+  Fedora:
+    - "@Fedora Workstation"
+    - "@Fonts"
+    - dbus-x11
+  openSUSE Leap:
+    - tmux
+  RedHat:
+    - "@Server with GUI"
+
+tmux_packages: "{{ _tmux_packages[ansible_distribution] | default(_tmux_packages[ansible_os_family] | default(_tmux_packages['default'] )) }}"
+
+tmux_exclude:
+  - "{{ ansible_distribution | lower }}-release-workstation"
+  - "{{ ansible_distribution | lower }}-release-workstation"

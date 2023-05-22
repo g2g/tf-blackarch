@@ -1,0 +1,10 @@
+---
+- name: Verify
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Check xdm-session
+      ansible.builtin.command:
+        cmd: xdm-session --help

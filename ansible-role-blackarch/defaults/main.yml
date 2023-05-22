@@ -1,0 +1,25 @@
+---
+
+############
+# Packages #
+############
+
+# General packages
+packages:
+  - nmap
+  - hydra
+  - john
+  - burpsuite
+  - hcxtools
+  - crackmapexec
+  - gobuster
+  - dirbuster
+  - metasploit
+  - msfdb
+  - hashcat
+  - wfuzz
+  - responder
+  - dirb
+  - perl-image-exiftool
+  - gnu-netcat
+  - blackarch/scapy

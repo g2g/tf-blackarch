@@ -1,0 +1,41 @@
+---
+# tasks file for tmux
+
+- name: Install software using dnf
+  ansible.builtin.package:
+    name: "{{ tmux_packages }}"
+    state: present
+    exclude: "{{ tmux_exclude | default(omit) }}"
+    allowerasing: yes
+  when:
+    - ansible_pkg_mgr == "dnf"
+
+- name: Install software using package
+  ansible.builtin.package:
+    name: "{{ tmux_packages }}"
+    state: present
+  when:
+    - ansible_pkg_mgr != "dnf"
+
+- name: Pull Tmux config file manager
+  ansible.builtin.git:
+    repo: https://github.com/gpakosz/.tmux.git
+    dest: "/home/{{ user.name }}/.tmux"
+    single_branch: yes
+    version: master
+
+- name: Create symbolic link to tmux config
+  ansible.builtin.file:
+    src: "/home/{{ user.name }}/.tmux/.tmux.conf"
+    dest: "/home/{{ user.name }}/.tmux.conf"
+    owner: "{{ user.name }}"
+    group: "{{ user.group | default(omit) }}"
+    state: link
+
+- name: Push tmux user config
+  ansible.builtin.copy:
+    src: tmux.conf.local
+    dest: "/home/{{ user.name }}/.tmux.conf.local"
+    mode: "0644"
+    owner: "{{ user.name }}"
+    group: "{{ user.group | default(omit) }}"

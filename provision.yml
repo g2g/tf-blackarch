@@ -1,0 +1,37 @@
+---
+- name: test playbook
+  hosts: all
+  gather_facts: true
+  become: true
+  vars:
+    timezone: Europe/Paris
+    user:
+      name: arch
+
+  tasks:
+    - name: install packages
+      ansible.builtin.package:
+        state: present
+        name:
+          - tar
+          - unzip
+          - python-pip
+          - git
+          - htop
+          - net-tools
+          - ncdu
+          - vim
+    - name: set as default locale
+      ansible.builtin.command: localectl set-locale LANG=en_US.UTF-8
+    - name: Set timezone
+      community.general.timezone:
+        name: "{{ timezone }}"
+
+  roles:
+  - role: ansible-role-blackarch
+  - role: ansible-role-postgres
+    postgres_port: 6543
+  - role: ansible-role-xdm
+  - role: ansible-role-i3
+  - role: ansible-role-tmux
+  - role: ansible-role-alacritty

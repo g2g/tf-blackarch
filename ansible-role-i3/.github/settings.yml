@@ -1,0 +1,8 @@
+---
+#
+# Ansible managed
+#
+repository:
+  description: Install i3 on your system.
+  homepage: https://robertdebock.nl/
+  topics: i3, ansible, molecule, tox, playbook, hacktoberfest

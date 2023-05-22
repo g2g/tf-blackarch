@@ -1,0 +1,26 @@
+---
+# vars file for alacritty
+
+_alacritty_packages:
+  default: []
+  Alpine:
+    - alacritty
+  Archlinux:
+    - alacritty
+    - xterm
+  Debian:
+    - alacritty
+  Fedora:
+    - "@Fedora Workstation"
+    - "@Fonts"
+    - dbus-x11
+  openSUSE Leap:
+    - alacritty
+  RedHat:
+    - "@Server with GUI"
+
+alacritty_packages: "{{ _alacritty_packages[ansible_distribution] | default(_alacritty_packages[ansible_os_family] | default(_alacritty_packages['default'] )) }}"
+
+alacritty_exclude:
+  - "{{ ansible_distribution | lower }}-release-workstation"
+  - "{{ ansible_distribution | lower }}-release-workstation"

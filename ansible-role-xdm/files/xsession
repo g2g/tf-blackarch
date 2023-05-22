@@ -1,0 +1,7 @@
+pkill -x -u "${USER}" gpg-agent >/dev/null 2>&1
+gpg-connect-agent /bye >/dev/null 2>&1
+pkill -x -u "${USER}" ssh-agent >/dev/null 2>&1
+[ -n "$(type -p ssh-agent)" ] && eval $(ssh-agent -s)
+dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY
+export MOZ_ENABLE_WAYLAND=0
+exec i3 --shmlog-size=26214400
